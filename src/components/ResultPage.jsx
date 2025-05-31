@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Komponen bintang dinamis
-function StarRating({ score }) {
+function StarRating({ score, baseScore }) {
     const maxStars = 5;
-    const stars = Math.round((score / 100) * maxStars);
+    const stars = Math.round((score / baseScore) * maxStars);
     return (
         <div className="flex items-center justify-center mb-2">
             {[...Array(maxStars)].map((_, i) => (
@@ -16,8 +16,13 @@ function StarRating({ score }) {
     );
 }
 
-export default function ResultPage({ score = 100 }) {
+export default function ResultPage({ score: defaultScore = 0, baseScore: defaultBaseScore = 1 }) {
     const navigate = useNavigate();
+
+    const location = useLocation();
+    const score = location.state?.score ?? defaultScore;
+    const baseScore = location.state?.baseScore ?? defaultBaseScore;
+
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-cyan-200 to-blue-300 flex flex-col">
@@ -71,9 +76,9 @@ export default function ResultPage({ score = 100 }) {
                 {/* Score Card */}
                 <div className="bg-orange-100 rounded-3xl px-12 py-8 w-full max-w-lg flex flex-col items-center mb-12 shadow-lg">
                     <div className="text-lg font-semibold text-gray-800 mb-2">Skor :</div>
-                    <StarRating score={score} />
+                    <StarRating score={score} baseScore={baseScore} />
                     <div className="text-3xl font-bold text-gray-800 mb-1 flex items-center gap-2">
-                        {score}
+                        {score}/{baseScore}
                         <span role="img" aria-label="trophy" className="text-yellow-500 text-2xl">🏆</span>
                     </div>
                     <div className="text-center text-sm text-gray-700 mt-2">

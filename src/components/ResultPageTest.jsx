@@ -1,10 +1,10 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // Komponen bintang dinamis
-function StarRating({ score }) {
+function StarRating({ score, baseScore }) {
   const maxStars = 5;
-  const stars = Math.round((score / 100) * maxStars);
+  const stars = Math.round((score / baseScore) * maxStars);
   const starsArr = [];
   for (let i = 0; i < maxStars; i++) {
     starsArr.push(
@@ -16,8 +16,14 @@ function StarRating({ score }) {
   return <div className="flex items-center justify-center mb-2">{starsArr}</div>;
 }
 
-export default function ResultPageTest({ score = 90 }) {
+export default function ResultPageTest({ score: defaultScore = 0, baseScore: defaultBaseScore = 0 }) {
   const navigate = useNavigate();
+
+  // Untuk ambil score dari Test
+  const location = useLocation();
+  const score = location.state?.score ?? defaultScore;
+  const baseScore = location.state?.baseScore ?? defaultBaseScore;
+  console.log(score, baseScore)
 
   return (
     <div className="min-h-screen w-full bg-[#95e2ff] flex flex-col">
@@ -73,9 +79,9 @@ export default function ResultPageTest({ score = 90 }) {
         {/* Score Card */}
         <div className="bg-orange-100 rounded-3xl px-12 py-8 w-full max-w-lg flex flex-col items-center mb-12 shadow-lg">
           <div className="text-lg font-semibold text-gray-800 mb-2">Skor :</div>
-          <StarRating score={score} />
+          <StarRating score={score} baseScore={baseScore} />
           <div className="text-3xl font-bold text-gray-800 mb-1 flex items-center gap-2">
-            {score}
+            {score}/{baseScore}
             <span role="img" aria-label="trophy" className="text-yellow-500 text-2xl">🏆</span>
           </div>
           <div className="text-center text-sm text-gray-700 mt-2">
@@ -93,7 +99,13 @@ export default function ResultPageTest({ score = 90 }) {
             Latihan lagi
           </button>
           <button
-            onClick={() => navigate("/history")}
+            onClick={() => navigate("/")}
+            className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition"
+          >
+            Ke Menu
+          </button>
+          <button
+            onClick={() => navigate("/leaderboard")}
             className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition"
           >
             History

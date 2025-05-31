@@ -30,7 +30,7 @@ export default function MainMenu() {
             <p className="text-lg text-gray-700 mb-1">Ayoo kita latihan membaca bersama NaraBaca!</p>
             <p className="text-lg text-gray-700 mb-10">Belajar jadi lebih seru dan asik!</p>
             <button className="flex items-center gap-3 bg-[#2687F2] hover:bg-blue-700 text-white font-extrabold px-8 py-4 rounded-2xl shadow-md text-lg transition duration-300"
-              onClick={() => navigate('/practice')}
+              onClick={() => navigate('/main-menu')}
             >
               {/* Icon Play */}
               <svg
