@@ -10,6 +10,4 @@ createRoot(document.getElementById('root')).render(
       <App />
       </BrowserRouter>
   </StrictMode>,
-
-  // This is new Branch - It's Farhan
 )
