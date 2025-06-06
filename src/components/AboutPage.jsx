@@ -70,7 +70,6 @@ export default function AboutPage() {
 
   return (
     <div className="min-h-screen bg-[#d9f4ff] flex flex-col">
-      
       {/* Header */}
       <Header />
 

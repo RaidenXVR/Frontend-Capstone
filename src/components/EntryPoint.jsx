@@ -26,17 +26,37 @@ export default function EntryPoint() {
             </button>
 
             {/* Main Content */}
-            <div className="relative flex items-center justify-center w-full max-w-6xl px-6">
-                {/* Kotak Oren Besar */}
-                <div className="relative bg-orange-100 rounded-3xl shadow-2xl flex items-center w-full max-w-5xl min-h-[440px] px-20 py-16">
-                    <div className="flex-1/2 min-w-[320px] w-1/2 items-center flex-col justify-center">
-                        <SVGButton onClick={()=>navigate('/practice')} src={book_bg1} text={"Latihan"} svgClassName="w-xs" buttonClassName=" hover:bg-cyan-200 text-white font-extrabold px-8 py-4 rounded-2xl shadow-md text-xl transition duration-300"/>
-                        <SVGButton onClick={()=>navigate('/test')} src={book_bg2 } text={"Tes"} svgClassName="w-xs" buttonClassName=" hover:bg-cyan-200 text-white font-extrabold px-8 py-4 rounded-2xl shadow-md text-xl transition duration-300"/>
-                        <SVGButton onClick={()=>navigate('/leaderboard')} src={book_bg3 } text={"Leaderboard"} svgClassName="w-xs" buttonClassName=" hover:bg-cyan-200 text-white font-extrabold px-8 py-4 rounded-2xl shadow-md text-xl transition duration-300"/>
-                    
+            <div className="relative flex items-center justify-center w-full max-w-6xl px-4 sm:px-6">
+                {/* Main Box */}
+                <div className="relative bg-orange-100 rounded-3xl shadow-2xl flex flex-col lg:flex-row items-center w-full max-w-5xl min-h-[440px] px-6 sm:px-10 lg:px-20 py-10 sm:py-12 lg:py-16 gap-6 sm:gap-10">
+                    {/* Buttons Section */}
+                    <div className="flex flex-col items-center justify-center w-full lg:w-1/2 gap-4 sm:gap-6">
+                        <SVGButton
+                            onClick={() => navigate('/practice')}
+                            src={book_bg1}
+                            text="Latihan"
+                            svgClassName=""
+                            buttonClassName="hover:bg-cyan-200 text-white font-extrabold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-md text-lg sm:text-md transition duration-300"
+                        />
+                        <SVGButton
+                            onClick={() => navigate('/test')}
+                            src={book_bg2}
+                            text="Tes"
+                            svgClassName=""
+                            buttonClassName="hover:bg-cyan-200 text-white font-extrabold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-md text-lg sm:text-xl transition duration-300"
+                        />
+                        <SVGButton
+                            onClick={() => navigate('/leaderboard')}
+                            src={book_bg3}
+                            text="Leaderboard"
+                            svgClassName=""
+                            buttonClassName="hover:bg-cyan-200 text-white font-extrabold px-6 sm:px-8 py-3 sm:py-4 rounded-2xl shadow-md text-lg sm:text-xl transition duration-300"
+                        />
                     </div>
-                    <div className="flex-1/2 min-w-[320px] w-1/2 items-center flex-col justify-center">
-                        <img src={book_open } />
+
+                    {/* Image Section */}
+                    <div className="flex justify-center items-center w-full lg:w-1/2">
+                        <img src={book_open} className="w-48 sm:w-64 md:w-72 lg:w-80" alt="Open Book" />
                     </div>
                 </div>
             </div>

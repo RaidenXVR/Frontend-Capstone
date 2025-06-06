@@ -1,7 +1,7 @@
 const wordList = [
   { word: "Saya", score: 15 },
   { word: "Di", score: 5 },
-  { word: "Yang", score: 15 },
+  { word: "Yang", score: 10 },
   { word: "Ini", score: 10 },
   { word: "Tidak", score: 15 },
   { word: "Dia", score: 10 },

@@ -14,6 +14,9 @@ export default function TestPage() {
   const [word, setWord] = useState(getRandomWord());
   const [wordsDone, setWordsDone] = useState([])
   const [showGifPopup, setShowGifPopup] = useState(false);
+  const [showFailGifPopUp, setShowFailGifPopup] = useState(false);
+  const [showLoadingGifPopup, setShowLoadingGifPopup] = useState(false);
+  const failAudioRef = useRef(null);
   const cheersAudioRef = useRef(null);
   const [score, setScore] = useState(0);
   const [baseScore, setBaseScore] = useState(0);
@@ -25,12 +28,13 @@ export default function TestPage() {
   const timerPausedRef = useRef(false);
   const [userPaused, setUserPaused] = useState(false);
   const recordingTimeoutRef = useRef(null)
-
+  const streamRef = useRef(null);
 
   const startRecording = async () => {
     setTimerPaused(true); // pause timer
 
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    streamRef.current = stream;
     const mediaRecorder = new MediaRecorder(stream);
     mediaRecorderRef.current = mediaRecorder;
     audioChunksRef.current = [];
@@ -41,17 +45,19 @@ export default function TestPage() {
 
     mediaRecorder.onstop = async () => {
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
-
+      setShowLoadingGifPopup(true)
       // Create a FormData object
       const formData = new FormData();
       formData.append('file', audioBlob, 'audio.wav'); // 'file' should match the parameter name in FastAPI
 
-      axios.post('http://localhost:8000/predict', formData, {
+      // Sesuaikan
+      axios.post(import.meta.env.VITE_PREDICT_URL ? import.meta.env.VITE_PREDICT_URL : 'http://localhost:8000/predict', formData, {
         headers: {
-          'Content-Type': 'multipart/form-data' // Axios will set this automatically when sending FormData, but good to be explicit
+          'Content-Type': 'multipart/form-data'
         }
       }).then((val) => {
         const predicted_words = val.data.predicted_keywords;
+        setShowLoadingGifPopup(false);
         if (predicted_words.includes(word.word.toLowerCase())) {
           setWordsDone(prev => [...prev, word.word]);
           setShowGifPopup(true); // Show popup
@@ -59,7 +65,8 @@ export default function TestPage() {
             cheersAudioRef.current.currentTime = 0;
             cheersAudioRef.current.play();
           }
-          const multiplier = timerLeftRef.current / 5
+
+          const multiplier = timerLeftRef.current / 7
           setScore(prev => prev + Math.round(word.score * multiplier));
           setBaseScore(prev => prev + word.score);
           console.log((word.score * multiplier).toFixed(0), multiplier, word.score, score + Math.round(word.score * multiplier), "Score, Multiplier, Base Score, Total");
@@ -67,13 +74,23 @@ export default function TestPage() {
           setTimeout(() => {
             setShowGifPopup(false); // Hide popup after 3s
             setWord(getRandomWord([...wordsDone, word.word]));
-            if (wordsDone.length == 9) {
+            if (wordsDone.length == 4) {
               navigate("/test-result", { state: { score: score + Math.round(word.score * multiplier), baseScore: baseScore + word.score } })
             }
           }, 3000);
         } else {
-          setTimerPaused(false);
-          timerStartRef.current = Date.now();
+          setShowFailGifPopup(true); // Show popup
+
+          if (failAudioRef.current) {
+            failAudioRef.current.currentTime = 0;
+            failAudioRef.current.play();
+          }
+          setTimeout(() => {
+
+            setTimerPaused(false);
+            timerStartRef.current = Date.now();
+            setShowFailGifPopup(false); // Hide popup after 3s
+          }, 3000);
         }
       }).catch((err) => {
         setTimerPaused(false);
@@ -133,7 +150,8 @@ export default function TestPage() {
 
     timerRef.current && clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      if (!timerPausedRef.current) { // <-- Use ref here
+
+      if (!timerPausedRef.current) {
         const elapsed = (Date.now() - timerStartRef.current) / 1000;
         const remaining = Math.max(0, timerLeftRef.current - elapsed);
         setTimer(remaining);
@@ -166,12 +184,13 @@ export default function TestPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-200 to-blue-300 relative">
       <audio ref={cheersAudioRef} src="/cheers.mp3" preload="auto" />
+
+      <audio ref={failAudioRef} src="/fail.mp3" preload="auto" />
       <div className="w-screen h-screen absolute inset-0 pointer-events-none z-0">
         <RandomStars />
       </div>
       {/* Header mirip History */}
       <Header />
-
       {/* { timer} */}
       <div id="timer" className="bg-purple-300 h-2 transition-all duration-70" style={{ width: timerWidth }}>
       </div>
@@ -240,6 +259,34 @@ export default function TestPage() {
               className="w-48 h-48 mb-4"
             />
             <div className="text-2xl font-bold text-black">Kerja Bagus! 🎉</div>
+          </div>
+        </div>
+      )}
+      {showFailGifPopUp && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-lg shadow-lg px-10 py-8 flex flex-col items-center animate-popinout"
+          >
+            <img
+              src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExYWZxa3VnbWE3ajU2OXF5YXh5YjhvdTk5dzc2dmJsdjNtNjJiNmdteSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/t4qszh1g5tZhumqycz/giphy.gif" // Replace with your local GIF if needed
+              alt="Great job!"
+              className="w-48 h-48 mb-4"
+            />
+            <div className="text-2xl font-bold text-black">Masih Salah...</div>
+          </div>
+        </div>
+      )}
+      {showLoadingGifPopup && (
+        <div className="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+          <div
+            className="bg-white rounded-lg shadow-lg px-10 py-8 flex flex-col items-center animate-popinout"
+          >
+            <img
+              src="https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExeHZ1djcwZGR5Z21oNDBtaTNybWZlZHR2OW8ybW5hdmZiYjB3MTFtNiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Zg11hb1FdPVWwQcSuw/giphy.gif" // Replace with your local GIF if needed
+              alt="Memproses..."
+              className="w-48 h-48 mb-4"
+            />
+            <div className="text-2xl font-bold text-black">Memproses... </div>
           </div>
         </div>
       )}

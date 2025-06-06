@@ -45,7 +45,7 @@ export default function ResultPageTest({ score: defaultScore = 0, baseScore: def
           <div className="text-lg font-semibold text-gray-800 mb-2">Skor :</div>
           <StarRating score={score} baseScore={baseScore} />
           <div className="text-3xl font-bold text-gray-800 mb-1 flex items-center gap-2">
-            {score}/{baseScore}
+				{((score / baseScore) * 100).toFixed(0)}
             <span role="img" aria-label="trophy" className="text-yellow-500 text-2xl">🏆</span>
           </div>
           <div className="text-center text-sm text-gray-700 mt-2">

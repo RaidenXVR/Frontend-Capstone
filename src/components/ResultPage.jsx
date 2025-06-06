@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Header from "./Header";
 
+
 // Komponen bintang dinamis
 function StarRating({ score, baseScore }) {
     const maxStars = 5;
@@ -27,7 +28,6 @@ export default function ResultPage({ score: defaultScore = 0, baseScore: default
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-cyan-200 to-blue-300 flex flex-col">
-            
             {/* Header */}
             <Header />
 
@@ -43,7 +43,7 @@ export default function ResultPage({ score: defaultScore = 0, baseScore: default
                     <div className="text-lg font-semibold text-gray-800 mb-2">Skor :</div>
                     <StarRating score={score} baseScore={baseScore} />
                     <div className="text-3xl font-bold text-gray-800 mb-1 flex items-center gap-2">
-                        {score}/{baseScore}
+                        {((score / baseScore) * 100).toFixed(0)}
                         <span role="img" aria-label="trophy" className="text-yellow-500 text-2xl">🏆</span>
                     </div>
                     <div className="text-center text-sm text-gray-700 mt-2">
