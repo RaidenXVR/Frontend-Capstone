@@ -93,10 +93,10 @@ export default function ResultPageTest({ score = 90 }) {
             Latihan lagi
           </button>
           <button
-            onClick={() => navigate("/history")}
+            onClick={() => navigate("/leaderboard")}
             className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition"
           >
-            History
+            Leaderboard
           </button>
         </div>
       </div>
