@@ -51,7 +51,7 @@ export default function TestPage() {
       formData.append('file', audioBlob, 'audio.wav'); // 'file' should match the parameter name in FastAPI
 
       // Sesuaikan
-      axios.post('https://audio-classif.raidenxvr.my.id/predict', formData, {
+      axios.post(import.meta.env.VITE_PREDICT_URL ? import.meta.env.VITE_PREDICT_URL : 'http://localhost:8000/predict', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }

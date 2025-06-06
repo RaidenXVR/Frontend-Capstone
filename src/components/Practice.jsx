@@ -16,6 +16,8 @@ export default function Practice() {
   const [wordsDone, setWordsDone] = useState([])
   const [showGifPopup, setShowGifPopup] = useState(false);
   const [showFailGifPopUp, setShowFailGifPopup] = useState(false);
+  const [showLoadingGifPopup, setShowLoadingGifPopup] = useState(false);
+
   const cheersAudioRef = useRef(null);
   const failAudioRef = useRef(null);
   const [score, setScore] = useState(0);
@@ -34,6 +36,8 @@ export default function Practice() {
     };
 
     mediaRecorder.onstop = async () => {
+      setShowLoadingGifPopup(true)
+
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
 
       // Create a FormData object
@@ -41,11 +45,13 @@ export default function Practice() {
       formData.append('file', audioBlob, 'audio.wav'); // 'file' should match the parameter name in FastAPI
 
       // Sesuaikan
-      axios.post('https://audio-classif.raidenxvr.my.id/predict', formData, {
+      axios.post(import.meta.env.VITE_PREDICT_URL ? import.meta.env.VITE_PREDICT_URL : 'http://localhost:8000/predict', formData, {
         headers: {
           'Content-Type': 'multipart/form-data' // Axios will set this automatically when sending FormData, but good to be explicit
         }
       }).then((val) => {
+        setShowLoadingGifPopup(false)
+
         const predicted_words = val.data.predicted_keywords;
         if (predicted_words.includes(word.word.toLowerCase())) {
           setWordsDone(prev => [...prev, word.word]);
