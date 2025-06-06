@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import RandomStars from "./RandomStar";
 import { getRandomWord } from "../assets/words";
 import axios from "axios";
+import Header from "./Header";
 
 export default function TestPage() {
   const [recording, setRecording] = useState(false);
@@ -28,7 +29,6 @@ export default function TestPage() {
   const [userPaused, setUserPaused] = useState(false);
   const recordingTimeoutRef = useRef(null)
   const streamRef = useRef(null);
-
 
   const startRecording = async () => {
     setTimerPaused(true); // pause timer
@@ -65,6 +65,7 @@ export default function TestPage() {
             cheersAudioRef.current.currentTime = 0;
             cheersAudioRef.current.play();
           }
+
           const multiplier = timerLeftRef.current / 7
           setScore(prev => prev + Math.round(word.score * multiplier));
           setBaseScore(prev => prev + word.score);
@@ -90,7 +91,6 @@ export default function TestPage() {
             timerStartRef.current = Date.now();
             setShowFailGifPopup(false); // Hide popup after 3s
           }, 3000);
-
         }
       }).catch((err) => {
         setTimerPaused(false);
@@ -150,6 +150,7 @@ export default function TestPage() {
 
     timerRef.current && clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
+
       if (!timerPausedRef.current) {
         const elapsed = (Date.now() - timerStartRef.current) / 1000;
         const remaining = Math.max(0, timerLeftRef.current - elapsed);
@@ -183,49 +184,13 @@ export default function TestPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-cyan-200 to-blue-300 relative">
       <audio ref={cheersAudioRef} src="/cheers.mp3" preload="auto" />
+
       <audio ref={failAudioRef} src="/fail.mp3" preload="auto" />
       <div className="w-screen h-screen absolute inset-0 pointer-events-none z-0">
         <RandomStars />
       </div>
       {/* Header mirip History */}
-      <div className="bg-white flex items-center justify-between px-8 py-4 rounded-b-2xl shadow z-10">
-        {/* Logo & Title kiri */}
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14 bg-orange-400 rounded-lg flex items-center justify-center">
-            <div className="w-10 h-10 bg-cyan-400 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xl">📖</span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-orange-500 font-bold text-2xl">Nara</span>
-              <span className="text-cyan-500 font-bold text-2xl">Baca</span>
-            </div>
-            <div className="text-xs text-gray-600 leading-tight">
-              Belajar Membaca, <br />
-              Ceria Bersama <br />
-              NaraBaca
-            </div>
-          </div>
-        </div>
-        {/* Navigation kanan */}
-        <div className="flex items-center gap-10">
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/")}
-          >
-            <span className="text-2xl">🏠</span>
-            <span className="text-sm font-medium">Home</span>
-          </button>
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/about")}
-          >
-            <span className="text-2xl">👤</span>
-            <span className="text-sm font-medium">About Us</span>
-          </button>
-        </div>
-      </div>
+      <Header />
       {/* { timer} */}
       <div id="timer" className="bg-purple-300 h-2 transition-all duration-70" style={{ width: timerWidth }}>
       </div>

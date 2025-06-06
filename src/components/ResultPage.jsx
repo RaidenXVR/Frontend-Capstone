@@ -1,5 +1,7 @@
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import Header from "./Header";
+
 
 // Komponen bintang dinamis
 function StarRating({ score, baseScore }) {
@@ -26,55 +28,18 @@ export default function ResultPage({ score: defaultScore = 0, baseScore: default
 
     return (
         <div className="min-h-screen w-full bg-gradient-to-br from-cyan-200 to-blue-300 flex flex-col">
-            {/* Header mirip halaman latihan */}
-            <div className="bg-white flex items-center justify-between px-8 py-4 rounded-b-2xl shadow">
-                {/* Logo & Title kiri */}
-                <div className="flex items-center gap-3">
-                    <div className="w-14 h-14 bg-orange-400 rounded-lg flex items-center justify-center">
-                        <div className="w-10 h-10 bg-cyan-400 rounded flex items-center justify-center">
-                            <span className="text-white font-bold text-xl">📖</span>
-                        </div>
-                    </div>
-                    <div>
-                        <div className="flex items-center gap-1">
-                            <span className="text-orange-500 font-bold text-2xl">Nara</span>
-                            <span className="text-cyan-500 font-bold text-2xl">Baca</span>
-                        </div>
-                        <div className="text-xs text-gray-600 leading-tight">
-                            Belajar Membaca, <br />
-                            Ceria Bersama <br />
-                            NaraBaca
-                        </div>
-                    </div>
-                </div>
-                {/* Navigation kanan */}
-                <div className="flex items-center gap-10">
-                    <button
-                        className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-                        onClick={() => navigate("/")}
-                    >
-                        <span className="text-2xl">🏠</span>
-                        <span className="text-sm font-medium">Home</span>
-                    </button>
-                    <button
-                        className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-                        onClick={() => navigate("/about")}
-                    >
-                        <span className="text-2xl">👤</span>
-                        <span className="text-sm font-medium">About Us</span>
-                    </button>
-                </div>
-            </div>
+            {/* Header */}
+            <Header />
 
             {/* Main Content */}
             <div className="flex flex-col items-center justify-center flex-1 w-full">
                 {/* Title */}
-                <div className="bg-purple-200 px-8 py-3 rounded-2xl mb-8 shadow-md mt-8">
+                <div className="bg-purple-200 px-8 py-3 rounded-2xl mb-8 shadow-md mt-1">
                     <h1 className="text-2xl font-bold text-gray-800">Kerja Bagus!</h1>
                 </div>
 
                 {/* Score Card */}
-                <div className="bg-orange-100 rounded-3xl px-12 py-8 w-full max-w-lg flex flex-col items-center mb-12 shadow-lg">
+                <div className="bg-orange-100 rounded-3xl px-12 py-4 w-full max-w-lg flex flex-col items-center mb-6 shadow-lg">
                     <div className="text-lg font-semibold text-gray-800 mb-2">Skor :</div>
                     <StarRating score={score} baseScore={baseScore} />
                     <div className="text-3xl font-bold text-gray-800 mb-1 flex items-center gap-2">

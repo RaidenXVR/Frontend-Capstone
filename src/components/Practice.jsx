@@ -5,6 +5,8 @@ import RandomStars from "./RandomStar";
 import { getRandomWord } from "../assets/words";
 import axios from "axios";
 import RandomCircle from "./RandomCircle";
+import Header from "./Header";
+
 
 export default function Practice() {
   const [recording, setRecording] = useState(false);
@@ -15,6 +17,7 @@ export default function Practice() {
   const [word, setWord] = useState(getRandomWord());
   const [wordsDone, setWordsDone] = useState([])
   const [showGifPopup, setShowGifPopup] = useState(false);
+
   const [showFailGifPopUp, setShowFailGifPopup] = useState(false);
   const [showLoadingGifPopup, setShowLoadingGifPopup] = useState(false);
 
@@ -23,7 +26,6 @@ export default function Practice() {
   const [score, setScore] = useState(0);
   const [baseScore, setBaseScore] = useState(0);
   const recordingTimeoutRef = useRef(null)
-
 
   const startRecording = async () => {
     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -51,7 +53,6 @@ export default function Practice() {
         }
       }).then((val) => {
         setShowLoadingGifPopup(false)
-
         const predicted_words = val.data.predicted_keywords;
         if (predicted_words.includes(word.word.toLowerCase())) {
           setWordsDone(prev => [...prev, word.word]);
@@ -70,6 +71,7 @@ export default function Practice() {
             setWord(getRandomWord([word.word]));
           }, 3000);
         } else {
+
           console.log("False...", val.data, word.word.toLowerCase());
           setShowFailGifPopup(true); // Show popup
 
@@ -80,7 +82,6 @@ export default function Practice() {
           setTimeout(() => {
             setShowFailGifPopup(false); // Hide popup after 3s
           }, 3000);
-
         }
       }).catch((err) => {
         console.log(err)
@@ -113,7 +114,6 @@ export default function Practice() {
 
   const handleFinishClick = () => {
     setShowModal(true);
-
   };
 
   const handleConfirmYes = () => {
@@ -136,46 +136,10 @@ export default function Practice() {
       <div className="absolute inset-0 pointer-events-none -z-10">
         <RandomCircle amount={15} />
       </div>
-      {/* Header mirip History */}
-      <div className="bg-white flex items-center justify-between px-8 py-4 rounded-b-2xl shadow z-10">
-        {/* Logo & Title kiri */}
-        <div className="flex items-center gap-3">
-          <div className="w-14 h-14 bg-orange-400 rounded-lg flex items-center justify-center">
-            <div className="w-10 h-10 bg-cyan-400 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-xl">📖</span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-orange-500 font-bold text-2xl">Nara</span>
-              <span className="text-cyan-500 font-bold text-2xl">Baca</span>
-            </div>
-            <div className="text-xs text-gray-600 leading-tight">
-              Belajar Membaca, <br />
-              Ceria Bersama <br />
-              NaraBaca
-            </div>
-          </div>
-        </div>
-        {/* Navigation kanan */}
-        <div className="flex items-center gap-10">
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/")}
-          >
-            <span className="text-2xl">🏠</span>
-            <span className="text-sm font-medium">Home</span>
-          </button>
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/about")}
-          >
-            <span className="text-2xl">👤</span>
-            <span className="text-sm font-medium">About Us</span>
-          </button>
-        </div>
-      </div>
 
+      {/* Header */}
+      <Header />
+		  
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] p-8 z-10">
         {/* Title */}
@@ -194,16 +158,14 @@ export default function Practice() {
           <button
             className={`w-20 h-20 rounded-full shadow-lg transition-all duration-300 flex items-center justify-center
               ${recording ? "bg-red-500 hover:bg-red-600 scale-110" : "bg-gray-300 hover:bg-gray-400"}`}
-            onClick={handleMicClick}
-          >
+            onClick={handleMicClick}>
             <Mic size={32} className={recording ? "text-white" : "text-gray-600"} />
           </button>
 
           {/* Finish Button */}
           <button
             className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition duration-300"
-            onClick={handleFinishClick}
-          >
+            onClick={handleFinishClick}>
             Selesai
           </button>
         </div>
