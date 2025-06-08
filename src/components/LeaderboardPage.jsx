@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import Header from "./Header";
 
 // Function to generate avatar URL (keep existing function)
 const getAvatarUrl = (name) => {
@@ -96,7 +97,7 @@ export default function LeaderboardPage() {
     <div className="min-h-screen bg-gradient-to-b from-[#8ee6fc] to-[#7fd0f6] flex flex-col">
       {/* HEADER */}
       <Header />
-      
+
       {/* STAR DECORATION */}
       <span className="absolute left-10 top-1/3 text-white text-3xl select-none">
         ✦
@@ -119,11 +120,10 @@ export default function LeaderboardPage() {
         {leaderboardData.map((player, idx) => (
           <div
             key={idx}
-            className={`flex flex-col sm:flex-row items-center justify-between w-full max-w-4xl ${
-              player.isTop
+            className={`flex flex-col sm:flex-row items-center justify-between w-full max-w-4xl ${player.isTop
                 ? "bg-gradient-to-r from-yellow-100 to-[#aeeaff]"
                 : "bg-[#aeeaff]"
-            } rounded-2xl mb-4 sm:mb-6 p-4 sm:px-8 sm:py-4 shadow-lg border-2 border-white transition-transform hover:scale-102`}
+              } rounded-2xl mb-4 sm:mb-6 p-4 sm:px-8 sm:py-4 shadow-lg border-2 border-white transition-transform hover:scale-102`}
           >
             {/* Rank */}
             <div className="flex items-center justify-center w-full sm:w-[10%] mb-2 sm:mb-0">
