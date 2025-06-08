@@ -75,16 +75,10 @@ export default function ResultPageTest({ score: defaultScore = 0, baseScore: def
             Latihan lagi
           </button>
           <button
-            onClick={() => navigate("/")}
-            className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition"
-          >
-            Ke Menu
-          </button>
-          <button
             onClick={() => navigate("/leaderboard")}
             className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition"
           >
-            History
+            Leaderboard
           </button>
         </div>
       </div>
