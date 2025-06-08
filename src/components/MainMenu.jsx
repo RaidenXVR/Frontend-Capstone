@@ -17,7 +17,8 @@ export default function MainMenu() {
         <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
         </svg>
-        <span className="font-medium text-gray-700">About Us</span>
+        <span className="font-medium text-gray-700">Tentang Kami</span>
+
       </button>
 
       {/* Main Content */}
@@ -30,7 +31,7 @@ export default function MainMenu() {
             <p className="text-lg text-gray-700 mb-1">Ayoo kita latihan membaca bersama NaraBaca!</p>
             <p className="text-lg text-gray-700 mb-10">Belajar jadi lebih seru dan asik!</p>
             <button className="flex items-center gap-3 bg-[#2687F2] hover:bg-blue-700 text-white font-extrabold px-8 py-4 rounded-2xl shadow-md text-lg transition duration-300"
-              onClick={() => navigate('/practice')}
+              onClick={() => navigate('/main-menu')}
             >
               {/* Icon Play */}
               <svg
