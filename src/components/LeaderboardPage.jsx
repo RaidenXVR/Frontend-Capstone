@@ -95,59 +95,8 @@ export default function LeaderboardPage() {
   return (
     <div className="min-h-screen bg-gradient-to-b from-[#8ee6fc] to-[#7fd0f6] flex flex-col">
       {/* HEADER */}
-      <div className="bg-white flex flex-col sm:flex-row items-center justify-between px-4 sm:px-8 py-4 rounded-b-2xl shadow gap-4 sm:gap-0">
-        {/* Logo & Title */}
-        <div className="flex items-center gap-3">
-          <div className="w-12 sm:w-14 h-12 sm:h-14 bg-orange-400 rounded-lg flex items-center justify-center">
-            <div className="w-8 sm:w-10 h-8 sm:h-10 bg-cyan-400 rounded flex items-center justify-center">
-              <span className="text-white font-bold text-lg sm:text-xl">
-                📖
-              </span>
-            </div>
-          </div>
-          <div>
-            <div className="flex items-center gap-1">
-              <span className="text-orange-500 font-bold text-xl sm:text-2xl">
-                Nara
-              </span>
-              <span className="text-cyan-500 font-bold text-xl sm:text-2xl">
-                Baca
-              </span>
-            </div>
-            <div className="text-xs text-gray-600 leading-tight hidden sm:block">
-              Belajar Membaca, <br />
-              Ceria Bersama <br />
-              NaraBaca
-            </div>
-          </div>
-        </div>
-
-        {/* Navigation */}
-        <div className="flex items-center gap-4 sm:gap-10">
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/")}
-          >
-            <span className="text-2xl">🏠</span>
-            <span className="text-sm font-medium">Home</span>
-          </button>
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/about")}
-          >
-            <span className="text-2xl">👥</span>
-            <span className="text-sm font-medium">About Us</span>
-          </button>
-          <button
-            className="flex flex-col items-center text-gray-700 hover:text-gray-900"
-            onClick={() => navigate("/test")}
-          >
-            <span className="text-2xl">📝</span>
-            <span className="text-sm font-medium">Test</span>
-          </button>
-        </div>
-      </div>
-
+      <Header />
+      
       {/* STAR DECORATION */}
       <span className="absolute left-10 top-1/3 text-white text-3xl select-none">
         ✦
