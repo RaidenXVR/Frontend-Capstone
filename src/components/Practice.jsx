@@ -71,8 +71,6 @@ export default function Practice() {
             setWord(getRandomWord([word.word]));
           }, 3000);
         } else {
-
-          console.log("False...", val.data, word.word.toLowerCase());
           setShowFailGifPopup(true); // Show popup
 
           if (failAudioRef.current) {
@@ -84,6 +82,8 @@ export default function Practice() {
           }, 3000);
         }
       }).catch((err) => {
+        setShowLoadingGifPopup(false)
+
         console.log(err)
       });
     };
@@ -139,7 +139,7 @@ export default function Practice() {
 
       {/* Header */}
       <Header />
-		  
+
       {/* Main Content */}
       <div className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] p-8 z-10">
         {/* Title */}

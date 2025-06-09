@@ -7,16 +7,22 @@ import book_open from "/book_open.svg"
 import book_bg2 from "/book_bg2.svg"
 import book_bg3 from "/book_bg3.svg"
 import SVGButton from "./SVGButton";
+import RandomStars from "./RandomStar";
 
 
 export default function EntryPoint() {
     const navigate = useNavigate();
 
     return (
-        <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-200 to-blue-300 overflow-hidden">
+        <div className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-cyan-200 to-blue-300 overflow-hidden px-4 sm:px-6">
+            {/* RandomStar */}
+            <div className="absolute inset-0 pointer-events-none z-1">
+                <RandomStars amount={28} />
+            </div>
+
             {/* About Us Button */}
             <button
-                className="absolute top-8 right-12 flex items-center gap-2 bg-white bg-opacity-60 px-5 py-2 rounded-full shadow hover:bg-opacity-80 transition"
+                className="absolute top-4 right-4 sm:top-6 sm:right-8 md:top-8 md:right-12 flex items-center gap-2 bg-white bg-opacity-60 px-4 py-2 rounded-full shadow hover:bg-opacity-80 transition text-sm md:text-base z-10"
                 onClick={() => navigate('/about')}
             >
                 <svg className="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -26,11 +32,11 @@ export default function EntryPoint() {
             </button>
 
             {/* Main Content */}
-            <div className="relative flex items-center justify-center w-full max-w-6xl px-4 sm:px-6">
+            <div className="relative flex items-center justify-center w-full max-w-6xl px-4 md:px-6 lg:px-10">
                 {/* Main Box */}
-                <div className="relative bg-orange-100 rounded-3xl shadow-2xl flex flex-col lg:flex-row items-center w-full max-w-5xl min-h-[440px] px-6 sm:px-10 lg:px-20 py-10 sm:py-12 lg:py-16 gap-6 sm:gap-10">
+                <div className="relative bg-orange-100 rounded-3xl shadow-2xl flex flex-col lg:flex-row items-center w-full max-w-5xl min-h-[440px] px-6 md:px-12 py-10 gap-6 md:gap-10">
                     {/* Buttons Section */}
-                    <div className="flex flex-col items-center justify-center w-full lg:w-1/2 gap-4 sm:gap-6">
+                    <div className="flex-1 min-w-[280px] flex flex-col items-center justify-center gap-4">
                         <SVGButton
                             onClick={() => navigate('/practice')}
                             src={book_bg1}
@@ -55,8 +61,8 @@ export default function EntryPoint() {
                     </div>
 
                     {/* Image Section */}
-                    <div className="flex justify-center items-center w-full lg:w-1/2">
-                        <img src={book_open} className="w-48 sm:w-64 md:w-72 lg:w-80" alt="Open Book" />
+                    <div className="flex-1 min-w-[280px] flex items-center justify-center">
+                        <img src={book_open} className="w-full max-w-xs md:max-w-sm" alt="Book Open" />
                     </div>
                 </div>
             </div>

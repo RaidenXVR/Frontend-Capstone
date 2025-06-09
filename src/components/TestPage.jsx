@@ -79,6 +79,7 @@ export default function TestPage() {
             }
           }, 3000);
         } else {
+
           setShowFailGifPopup(true); // Show popup
 
           if (failAudioRef.current) {
@@ -93,6 +94,8 @@ export default function TestPage() {
           }, 3000);
         }
       }).catch((err) => {
+        setShowLoadingGifPopup(false)
+
         setTimerPaused(false);
         timerStartRef.current = Date.now();
         console.log(err)

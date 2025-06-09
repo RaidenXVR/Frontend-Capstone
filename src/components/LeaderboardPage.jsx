@@ -55,16 +55,24 @@ export default function LeaderboardPage() {
       }
       const data = await response.json();
 
-      // Transform API data to match our UI requirements
-      const transformedData = data.data.map((item, index) => ({
+      // Sort the raw data first (by percentage score, descending)
+      const sortedRawData = [...data.data].sort((a, b) => {
+        const aPercent = (a.score / a.base_score) * 100;
+        const bPercent = (b.score / b.base_score) * 100;
+        return bPercent - aPercent;
+      });
+
+      // Transform API data
+      const transformedData = sortedRawData.map((item, index) => ({
         rank: index + 1,
         name: item.name,
-        level: getPlayerLevel(item.score),
-        score: item.score,
-        stars: Math.ceil(item.score / 20), // Calculate stars based on score
+        level: getPlayerLevel((item.score / item.base_score) * 100),
+        score: ((item.score / item.base_score) * 100) <= 100 ? ((item.score / item.base_score) * 100).toFixed(0) : 100, // Calculate percentage score
+        stars: Math.ceil(((item.score / item.base_score) * 100) <= 100 ? ((item.score / item.base_score) * 100 / 20) : 5), // Calculate stars based on score
         reward: getReward(index + 1),
         isTop: index === 0, // First place is top
       }));
+
 
       setLeaderboardData(transformedData);
       setLoading(false);
@@ -116,13 +124,18 @@ export default function LeaderboardPage() {
       </div>
 
       {/* LEADERBOARD LIST */}
-      <div className="flex flex-col items-center w-full px-2 sm:px-4 pb-12">
+      <div className="flex flex-col items-center w-full px-2 sm:px-4 pb-12"
+        style={{
+          maxHeight: "60vh", // or any height you want
+          overflowY: "auto",
+        }}
+      >
         {leaderboardData.map((player, idx) => (
           <div
             key={idx}
             className={`flex flex-col sm:flex-row items-center justify-between w-full max-w-4xl ${player.isTop
-                ? "bg-gradient-to-r from-yellow-100 to-[#aeeaff]"
-                : "bg-[#aeeaff]"
+              ? "bg-gradient-to-r from-yellow-100 to-[#aeeaff]"
+              : "bg-[#aeeaff]"
               } rounded-2xl mb-4 sm:mb-6 p-4 sm:px-8 sm:py-4 shadow-lg border-2 border-white transition-transform hover:scale-102`}
           >
             {/* Rank */}
@@ -178,6 +191,15 @@ export default function LeaderboardPage() {
             </div>
           </div>
         ))}
+      </div>
+      <div className="flex w-full items-center justify-center gap-4 sm:gap-6 mb-8">
+        <button
+          onClick={() => navigate("/")}
+          className="bg-gray-100 hover:bg-gray-300 text-gray-800 font-semibold px-8 py-3 rounded-2xl shadow-md transition w-full sm:w-auto"
+        >
+          Ke Menu
+        </button>
+
       </div>
     </div>
   );
