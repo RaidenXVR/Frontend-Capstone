@@ -46,17 +46,36 @@ export default function TestPage() {
     mediaRecorder.onstop = async () => {
       const audioBlob = new Blob(audioChunksRef.current, { type: "audio/wav" });
       setShowLoadingGifPopup(true)
-      // Create a FormData object
-      const formData = new FormData();
-      formData.append('file', audioBlob, 'audio.wav'); // 'file' should match the parameter name in FastAPI
-
+      // Convert blob to base64
+      const toBase64 = (blob) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            // Remove the "data:audio/wav;base64," prefix
+            const base64data = reader.result.split(',')[1];
+            resolve(base64data);
+          };
+          reader.onerror = (error) => reject(error);
+        });
+      };
+      const base64String = await toBase64(audioBlob);
+      const uuid = crypto.randomUUID();
+      const payload = {
+        input: {
+          file_base64: base64String,
+          filename: `${uuid}.wav`
+        }
+      };
       // Sesuaikan
-      axios.post(import.meta.env.VITE_PREDICT_URL ? import.meta.env.VITE_PREDICT_URL : 'http://localhost:8000/predict', formData, {
+      axios.post(import.meta.env.VITE_PREDICT_URL ? import.meta.env.VITE_PREDICT_URL : 'http://localhost:8000/predict', payload, {
         headers: {
-          'Content-Type': 'multipart/form-data'
+          'Content-Type': 'application/json',
+          "Authorization": import.meta.env.VITE_API_KEY ? `Bearer ${import.meta.env.VITE_API_KEY}` : ''
+
         }
       }).then((val) => {
-        const predicted_words = val.data.predicted_keywords;
+        const predicted_words = val.data.output.predicted_keywords;
         setShowLoadingGifPopup(false);
         if (predicted_words.includes(word.word.toLowerCase())) {
           setWordsDone(prev => [...prev, word.word]);

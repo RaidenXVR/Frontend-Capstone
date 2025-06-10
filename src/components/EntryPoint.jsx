@@ -1,7 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import charactersImg from "../assets/characters.png";
-import playIcon from "../assets/play.png";
 import book_bg1 from "/book_bg1.svg"
 import book_open from "/book_open.svg"
 import book_bg2 from "/book_bg2.svg"

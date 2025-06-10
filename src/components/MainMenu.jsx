@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import charactersImg from "../assets/characters.png";
+import charactersImg from "/characters.svg";
 import RandomStars from "./RandomStar";
 
 export default function MainMenu() {
@@ -40,7 +40,19 @@ export default function MainMenu() {
             boxShadow: "0 8px 32px 0 rgba(0,0,0,0.1)",
             zIndex: 0,
           }}
-        ></div>
+        >
+          <div className="m-0 md:m-0 flex justify-end items-end pointer-events-none">
+            <img
+              src={charactersImg}
+              alt="Characters"
+              className="
+                w-[0px] sm:w-[0px] md:w-[350px] lg:w-[450px] xl:w-[500px] 
+                h-auto object-contain drop-shadow-xl max-w-none 
+              "
+              draggable={false}
+            />
+          </div>
+        </div>
 
         {/* Bubble oren di belakang teks */}
         <div
@@ -76,20 +88,7 @@ export default function MainMenu() {
             </button>
           </div>
           {/* Karakter Masuk Dalam Kotak */}
-          <div className="absolute bottom-[-48px] md:bottom-[-120px] right-[-16px] md:right-[-50px] pointer-events-none">
-            <img
-              src={charactersImg}
-              alt="Characters"
-              className="
 
-                w-[0px] sm:w-[300px] md:w-[450px] lg:w-[650px] xl:w-[900px] 
-                h-auto object-contain drop-shadow-xl max-w-none 
-                translate-x-4 sm:translate-x-8 md:translate-x-12 lg:translate-x-24 xl:translate-x-36
-                translate-y-4 sm:translate-y-8 md:translate-y-12 lg:translate-y-20 xl:translate-y-24
-              "
-              draggable={false}
-            />
-          </div>
         </div>
       </div>
     </div>
